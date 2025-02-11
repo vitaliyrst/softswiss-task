@@ -1,49 +1,39 @@
-import {JSX} from "react";
+import {JSX, useState} from "react";
 import logo from './assets/images/header/logo.svg';
-import bg1 from './assets/images/offers/background_1.svg';
-import bg2 from './assets/images/offers/background_2.svg';
-import bg3 from './assets/images/offers/background_3.svg';
-import bg4 from './assets/images/offers/background_4.svg';
 import spaceship from './assets/images/footer/spaceship.svg';
 import './App.scss';
 import './index.scss';
 
-
-export interface iOffer {
+interface iOffer {
 	title: string;
 	subtitle: string;
-	image: string;
 }
 
 const App = () => {
+	const [menuOpen, setMenuOpen] = useState(false);
+
 	const offers: iOffer[] = [
 		{
 			title: 'Move the borders of reality!',
 			subtitle: 'Go on a space adventure - it\'s possible with us!',
-			image: bg1
 		},
 		{
 			title: 'Space is not just stars and planets',
 			subtitle: 'Go on a space adventure',
-			image: bg2
 		},
 		{
 			title: 'For those who dream of stars',
 			subtitle: 'Our offer: make your dream come true',
-			image: bg3
 		},
 		{
 			title: 'Fulfill your fantastic dreams',
 			subtitle: 'Space has never been so close',
-			image: bg4
 		}
 	];
 
 	const getOffers: JSX.Element[] = offers.map((offer, index) => {
-		const background = `linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(15, 20, 32, 0.79) 100%), url(${offer.image}) no-repeat center/cover`
-
 			return (
-				<div key={index} className="offers__card" style={{ background: background }}>
+				<div key={index} className={`offers__card offers__card-${index + 1}`}>
 					<h2 className="offers__card-title">{ offer.title }</h2>
 					<span className="offers__card-subtitle">{ offer.subtitle }</span>
 					<button className="offers__card-button button">Learn more</button>
@@ -52,7 +42,6 @@ const App = () => {
 		}
 	);
 
-
 	return (
 		<div className="app">
 			<header className="header">
@@ -60,10 +49,22 @@ const App = () => {
 					<img className="menu__logo" src={logo} alt="logo"/>
 
 					<nav className="menu__nav">
-						<div className="menu__nav-item">Home</div>
-						<div className="menu__nav-item">Products</div>
-						<div className="menu__nav-cart"></div>
+						<a className="menu__nav-item">Home</a>
+						<a className="menu__nav-item">Products</a>
+						<a className="menu__nav-cart"></a>
 					</nav>
+
+
+					<div
+						className={`menu__burger-button ${menuOpen ? "active" : ""}`}
+						onClick={() => setMenuOpen(!menuOpen)}
+					></div>
+
+					<div className={`menu__mobile ${menuOpen ? "active" : ""}`}>
+						<a className="menu__mobile-item" onClick={() => setMenuOpen(false)}>Home</a>
+						<a className="menu__mobile-item" onClick={() => setMenuOpen(false)}>Products</a>
+						<a className="menu__mobile-item" onClick={() => setMenuOpen(false)}>Cart</a>
+					</div>
 				</div>
 
 				<div className="banner">
